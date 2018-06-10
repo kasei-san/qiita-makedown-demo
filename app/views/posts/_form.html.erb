@@ -13,8 +13,27 @@
 
   <div class="field">
     <%= form.label :content %>
-    <%= form.text_area :content %>
+    <div id='editor'>
+      <textarea name="post[content]" id="n" class="form-control" rows="20" v-model='input' debounce='50'></textarea>
+      <div class="di_inline_t preview">
+        <div v-html='input | marked' style: :"width: 650px;"></div>
+      </div>
+    </div>
   </div>
+
+  <script type="text/javascript">
+window.onload = function() {
+  new Vue({
+    el: '#editor',
+    data: {
+      input: '<%== j @post.content %>',
+    },
+    filters: {
+      marked: marked,
+    },
+  });
+};
+  </script>
 
   <div class="actions">
     <%= form.submit %>
